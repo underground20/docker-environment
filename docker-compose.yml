@@ -18,13 +18,23 @@ services:
       - XDEBUG_CONFIG="idekey=${IDE_KEY} remote_enable=1 remote_host=${XDEBUG_REMOTE_IP}
     env_file:
       - .env
+    networks:
+      default:
+        ipv4_address: ${PHP_FPM_IP}
   mysql:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_SUBNET}
