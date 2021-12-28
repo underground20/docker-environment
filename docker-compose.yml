@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   nginx:
-    image: nginx:1.18
+    image: nginx:1.20-alpine
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./:/var/www/app
@@ -13,16 +13,18 @@ services:
       dockerfile: php-fpm.docker
     volumes:
       - ./:/var/www/app
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     working_dir: /var/www/app
     environment:
-      - XDEBUG_CONFIG="idekey=${IDE_KEY} remote_enable=1 remote_host=${XDEBUG_REMOTE_IP}
+      XDEBUG_CONFIG: idekey=${IDE_KEY} remote_enable=1 client_port=${XDEBUG_PORT} client_host=${XDEBUG_REMOTE_IP}
+      PHP_IDE_CONFIG: serverName=${SERVER_NAME}
     env_file:
       - .env
     networks:
       default:
         ipv4_address: ${PHP_FPM_IP}
   mysql:
-    image: mysql
+    image: mysql:8.0
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME}
