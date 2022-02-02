@@ -16,7 +16,7 @@ services:
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     working_dir: /var/www/app
     environment:
-      XDEBUG_CONFIG: idekey=${IDE_KEY} remote_enable=1 client_port=${XDEBUG_PORT} client_host=${XDEBUG_REMOTE_IP}
+      XDEBUG_CONFIG: idekey=${IDE_KEY} client_port=${XDEBUG_PORT} client_host=${XDEBUG_REMOTE_IP}
       PHP_IDE_CONFIG: serverName=${SERVER_NAME}
     env_file:
       - .env
