@@ -1,36 +1,40 @@
-version: '3.7'
+version: '3.9'
 services:
-  nginx:
-    build:
-      context: ./docker/nginx
-    volumes:
-      - ./:/var/www/app
-    ports:
-      - "8081:80"
-  php-fpm:
-    build:
-      context: ./docker/php-fpm
-    volumes:
-      - ./:/var/www/app
-    environment:
-      PHP_IDE_CONFIG: serverName=${SERVER_NAME}
-    env_file:
-      - .env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-  php-cli:
-    build:
-      context: ./docker/php-cli
-    volumes:
-      - ./:/var/www/app
-    tty: true
-  mysql:
-    image: mysql:8.0
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - ./data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+    nginx:
+        build:
+            context: ./docker/nginx
+        volumes:
+            - ./:/var/www/app
+        ports:
+            - "8081:80"
+    php-fpm:
+        build:
+            context: ./docker/php-fpm
+        volumes:
+            - ./:/var/www/app
+        environment:
+            PHP_IDE_CONFIG: serverName=${SERVER_NAME}
+        env_file:
+            - .env
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    php-cli:
+        build:
+            context: ./docker/php-cli
+        volumes:
+            - ./:/var/www/app
+        tty: true
+    postgres:
+        image: postgres:15-alpine
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+        env_file:
+            - .env
+        volumes:
+            - db:/var/lib/postgresql/data
+        ports:
+            - "54321:5432"
+volumes:
+    db:
