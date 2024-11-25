@@ -1,8 +1,8 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 RUN apk update && apk add unzip autoconf g++ make libpq-dev \
     && apk add --update linux-headers \
-    && pecl install xdebug \
+    && pecl install xdebug-3.4.0beta1 \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-enable xdebug
 
