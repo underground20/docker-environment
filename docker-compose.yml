@@ -2,6 +2,8 @@ services:
     nginx:
         build:
             context: ./docker/nginx
+            args:
+                NGINX_IMAGE_VERSION: ${NGINX_IMAGE_VERSION:-1.25}
         volumes:
             - ./:/var/www/app
         ports:
@@ -9,6 +11,9 @@ services:
     php-fpm:
         build:
             context: ./docker/php-fpm
+            args:
+                PHP_IMAGE_VERSION: ${PHP_IMAGE_VERSION:-8.4}
+                XDEBUG_VERSION: ${XDEBUG_VERSION:-3.4.0beta1}
         volumes:
             - ./:/var/www/app
         environment:
@@ -20,11 +25,13 @@ services:
     php-cli:
         build:
             context: ./docker/php-cli
+            args:
+                PHP_IMAGE_VERSION: ${PHP_IMAGE_VERSION:-8.4}
         volumes:
             - ./:/var/www/app
         tty: true
     postgres:
-        image: postgres:15-alpine
+        image: postgres:${POSTGRES_VERSION:-16}-alpine
         environment:
             POSTGRES_USER: ${DB_USER}
             POSTGRES_PASSWORD: ${DB_PASSWORD}

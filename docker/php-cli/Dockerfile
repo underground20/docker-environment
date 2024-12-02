@@ -1,4 +1,5 @@
-FROM php:8.4-cli-alpine
+ARG PHP_IMAGE_VERSION
+FROM php:${PHP_IMAGE_VERSION}-cli-alpine
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
 --install-dir=/usr/bin --filename=composer

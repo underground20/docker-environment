@@ -1,4 +1,5 @@
-FROM nginx:1.25-alpine
+ARG NGINX_IMAGE_VERSION
+FROM nginx:${NGINX_IMAGE_VERSION}-alpine
 
 COPY ./conf.d /etc/nginx/conf.d
 
