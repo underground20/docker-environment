@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
         bootstrap="vendor/autoload.php"
-        executionOrder="depends,defects"
-        beStrictAboutOutputDuringTests="true"
-        beStrictAboutTodoAnnotatedTests="true"
-        cacheResultFile="var/cache/.phpunit.result.cache"
-        verbose="true">
+        cacheResult="true"
+        cacheDirectory="var/cache/.phpunit.cache"
+        colors="true"
+        failOnWarning="true"
+        failOnRisky="true"
+        failOnEmptyTestSuite="true"
+        stopOnFailure="false"
+        resolveDependencies="true"
+>
     <testsuites>
-        <testsuite name="Test">
+        <testsuite name="test">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
