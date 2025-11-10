@@ -1,8 +1,11 @@
 ARG PHP_IMAGE_VERSION
 FROM php:${PHP_IMAGE_VERSION}-cli-alpine
 
-RUN curl -sS https://getcomposer.org/installer | php -- \
---install-dir=/usr/bin --filename=composer
+COPY --from=composer:2.2 /usr/bin/composer /usr/local/bin/composer
+
+RUN apk update && apk add unzip autoconf g++ make libpq-dev libxml2-dev \
+    && apk add --update linux-headers \
+    && docker-php-ext-install dom pdo_pgsql
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 

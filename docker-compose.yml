@@ -27,6 +27,8 @@ services:
             context: ./docker/php-cli
             args:
                 PHP_IMAGE_VERSION: ${PHP_IMAGE_VERSION:-8.4}
+        env_file:
+            - .env
         volumes:
             - ./:/var/www/app
         tty: true
